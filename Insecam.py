@@ -2,6 +2,7 @@ import requests
 import re
 import random
 import time
+import argparse
 from requests.structures import CaseInsensitiveDict
 
 # List of user agents
@@ -91,7 +92,13 @@ def fetch_camera_ips(country_code, pages):
 
 
 def main():
-    banner()
+    parser = argparse.ArgumentParser(description="Insecam IP Camera Scraper")
+    parser.add_argument("-C", "--country-code", help="Country code (e.g., US, IN, JP)")
+    parser.add_argument("-q", "--quiet", action="store_true", help="Quiet mode (only show IPs)")
+    args = parser.parse_args()
+
+    if not args.quiet:
+        banner()
 
     try:
         countries = fetch_countries()
@@ -99,11 +106,15 @@ def main():
             print("No countries found.")
             return
 
-        print("\nAvailable Countries:\n")
-        display_countries(countries, cols=3)
+        # If country code not given, display list
+        if not args.country_code:
+            if not args.quiet:
+                print("\nAvailable Countries:\n")
+                display_countries(countries, cols=3)
+            print("\nUse -C <CODE> to fetch IPs from a specific country.")
+            return
 
-        # Ask user for input
-        country_code = input("\nEnter the Country Code: ").strip().upper()
+        country_code = args.country_code.strip().upper()
         if country_code not in countries:
             print("Invalid country code.")
             return
@@ -117,8 +128,9 @@ def main():
         # Fetch camera IPs
         ips = fetch_camera_ips(country_code, pages)
 
-        # Show results
-        print(f"\nFound {len(ips)} cameras in {countries[country_code]['country']}:\n")
+        if not args.quiet:
+            print(f"\nFound {len(ips)} cameras in {countries[country_code]['country']}:\n")
+
         for ip in ips:
             print(ip)
 
