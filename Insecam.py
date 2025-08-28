@@ -23,6 +23,19 @@ USER_AGENTS = [
 
 BASE_URL = "http://www.insecam.org/en"
 
+# Show ASCII art banner.
+BANNER = r"""
+ ___                                    
+|_ _|_ __  ___  ___  ___ __ _ _ __ ___  
+ | || '_ \/ __|/ _ \/ __/ _` | '_ ` _ \ 
+ | || | | \__ \  __/ (_| (_| | | | | | |
+|___|_| |_|___/\___|\___\__,_|_| |_| |_|
+
+Access Insecure Security Cameras in 20+ countries.
+
+    Author: Ninja-Yubaraj
+    Github: https://github.com/Ninja-Yubaraj/Insecam
+"""
 
 def get_headers():
     # Return headers with a random User-Agent.
@@ -31,24 +44,6 @@ def get_headers():
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Connection": "keep-alive"
     })
-
-
-def banner():
-    # Show ASCII art banner.
-    art = r"""
-     ___                                    
-    |_ _|_ __  ___  ___  ___ __ _ _ __ ___  
-     | || '_ \/ __|/ _ \/ __/ _` | '_ ` _ \ 
-     | || | | \__ \  __/ (_| (_| | | | | | |
-    |___|_| |_|___/\___|\___\__,_|_| |_| |_|
-
-    Access Insecure Security Cameras in 20+ countries.
-
-        Author: Ninja-Yubaraj
-        Github: https://github.com/Ninja-Yubaraj/Insecam
-    """
-    print(art)
-    time.sleep(0.25)  # small pause for effect
 
 
 def fetch_countries():
@@ -92,13 +87,17 @@ def fetch_camera_ips(country_code, pages):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Insecam IP Camera Scraper")
+    parser = argparse.ArgumentParser(
+        description=f"{BANNER}\nUse this tool to fetch insecure camera IPs from Insecam.",
+        formatter_class=argparse.RawTextHelpFormatter
+    )
     parser.add_argument("-C", "--country-code", help="Country code (e.g., US, IN, JP)")
     parser.add_argument("-q", "--quiet", action="store_true", help="Quiet mode (only show IPs)")
     args = parser.parse_args()
 
     if not args.quiet:
-        banner()
+        print(BANNER)
+        time.sleep(0.25) # small pause for effect
 
     try:
         countries = fetch_countries()
