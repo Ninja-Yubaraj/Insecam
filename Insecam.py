@@ -24,7 +24,7 @@ BASE_URL = "http://www.insecam.org/en"
 
 
 def get_headers():
-    """Return headers with a random User-Agent."""
+    # Return headers with a random User-Agent.
     return CaseInsensitiveDict({
         "User-Agent": random.choice(USER_AGENTS),
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -33,7 +33,7 @@ def get_headers():
 
 
 def banner():
-    """Show ASCII art banner."""
+    # Show ASCII art banner.
     art = r"""
      ___                                    
     |_ _|_ __  ___  ___  ___ __ _ _ __ ___  
@@ -51,7 +51,7 @@ def banner():
 
 
 def fetch_countries():
-    """Fetch and return the list of countries with camera counts."""
+    # Fetch and return the list of countries with camera counts.
     url = f"{BASE_URL}/jsoncountries/"
     response = requests.get(url, headers=get_headers())
     response.raise_for_status()
@@ -59,7 +59,7 @@ def fetch_countries():
 
 
 def display_countries(countries, cols=3):
-    """Display countries in a compact multi-column format."""
+    # Display countries in a compact multi-column format.
     items = []
     for code, data in countries.items():
         items.append(f"{code:<3} {data['country']:<20} ({data['count']})")
@@ -70,7 +70,7 @@ def display_countries(countries, cols=3):
 
 
 def fetch_country_pages(country_code):
-    """Fetch the total number of pages for a given country."""
+    # Fetch the total number of pages for a given country.
     url = f"{BASE_URL}/bycountry/{country_code}"
     response = requests.get(url, headers=get_headers())
     if response.status_code != 200:
@@ -80,7 +80,7 @@ def fetch_country_pages(country_code):
 
 
 def fetch_camera_ips(country_code, pages):
-    """Fetch all camera IPs for a given country and number of pages."""
+    # Fetch all camera IPs for a given country and number of pages.
     all_ips = set()
     for page in range(pages):
         url = f"{BASE_URL}/bycountry/{country_code}/?page={page}"
