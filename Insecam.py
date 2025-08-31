@@ -121,7 +121,7 @@ def main():
         # Get total pages
         pages = fetch_country_pages(country_code)
         if pages == 0:
-            print("No camera pages found for this country.")
+            print("No cameras found for this country.")
             return
 
         # Fetch camera IPs

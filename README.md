@@ -75,6 +75,9 @@ Example output for `python Insecam.py -C US`:
 
 Access Insecure Security Cameras in 20+ countries.
 
+    Author: Ninja-Yubaraj
+    Github: https://github.com/Ninja-Yubaraj/Insecam
+
 Found 42 cameras in United States:
 
 http://123.45.67.89:8080
